@@ -5,12 +5,13 @@ import os, sys
 
 def convert(dir, newDir, size, rotate, extension):
     images = os.listdir(dir)
+
     for image in images:
 
         print("image before filter: {}\n".format(image))
 
         # Check for any files not wanting to be processed
-        if image.startswith("."):
+        if image.startswith(".") or image.endswith(extension):
             continue
 
         print("image after filter: {}\n".format(image))
