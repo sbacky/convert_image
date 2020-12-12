@@ -3,47 +3,32 @@
 from PIL import Image
 import os, sys
 
+def oneByOne():
+    cont = "n"
+    while cont.lower().strip() != "y":
+        cont = input("Would you like to continue to the next file? ['y'/'n'] ... ")
+
 def convert(dir, newDir, size, rotate, extension):
     images = os.listdir(dir)
 
     for image in images:
-
-        print("image before filter: {}\n".format(image))
-
         # Check for any files not wanting to be processed
         if image.startswith(".") or image.endswith(extension):
             continue
-
-        print("image after filter: {}\n".format(image))
-
         # get old extension of images at ext
-        fn, ext = os.path.splitext(image)
-
-        print("fn: {}, ext: {}\n".format(fn, ext))
-
+        fn, ext = image.split(".")
         # get new file name with extension
-        newFn = "{}{}".format(fn, extension)
-
-        print("newFn: {}\n".format())
-
+        newFn = fn + extension
         # Get full path to unprocessed image
         unPath = os.path.join(dir, image)
-
-        print("unPath: {}\n".format(unPath))
-
         # Get full path to processed image
         prPath = os.path.join(newDir, newFn)
-
-        print("prPath: {}\n".format(prPath))
-
         # create instance of image at path called im
-        im = Image(unPath)
-        im.rotate(rotate).resize(size).save(prPath))
+        im = Image.open(unPath)
+        im.rotate(rotate).resize(size).save(prPath)
 
-        # Unhash when debugging to go through images one by one
-        cont = "n"
-        while cont.lower().strip() != "y":
-            cont = input("Would you like to continue to the next file? ['y'/'n'] ...")
+        # Unhash to go through images one by one
+        #oneByOne()
 
 def main():
     dir, newDir, size, rotate, extension = sys.argv[1].split("|")
@@ -51,8 +36,11 @@ def main():
     try:
         os.path.isdir(dir)
         os.path.isdir(newDir)
-        size = size.split(",")
-        size = (int(size[0]), int(size[1]))
+
+        num1, num2 = size.split(",")
+        size = (int(num1), int(num2))
+
+        rotate = int(rotate)
     except TypeError:
         print("Please pass a directory to get started.")
         print("Invocation: converter.py dir|newDir|size|rotate|ext")
@@ -93,6 +81,7 @@ def main():
         print("{} extension does not start with (.)\nPlease entr extension begining with (.)".format(extension))
         sys.exit(41)
 
+    #convert(dir, newDir, size, rotate, extension)
     try:
         convert(dir, newDir, size, rotate, extension)
         sys.exit(0)
