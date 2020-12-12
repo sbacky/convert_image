@@ -25,7 +25,12 @@ def convert(dir, newDir, size, rotate, extension):
         # If convert to jpeg, make sure image in RGB mode
         if im.mode != 'RGB' and extension.lower().strip() in jpgForms:
             im = im.convert('RGB')
-            
+        # if size or extension is null, set them accordingly
+        if size == ('null', 'null'):
+            size = im.size
+        if extension == "null":
+            extension = im.format
+
         im.rotate(rotate).resize(size).save(fp=prPath, format=extension)
 
         # Unhash to go through images one by one
@@ -34,13 +39,22 @@ def convert(dir, newDir, size, rotate, extension):
 def main():
     dir, newDir, size, rotate, extension = sys.argv[1].split("|")
 
+    # Check for empty inputs and fill them accordingly
+    if newDir == ""
+        newDir = dir
+    if size != "":
+        num1, num2 = size.split(",")
+        size = (int(num1), int(num2))
+    else:
+        size = ('null', 'null')
+    if rotate == "":
+        rotate = "0"
+    if extension == "":
+        extension = "null"
+
     try:
         os.path.isdir(dir)
         os.path.isdir(newDir)
-
-        num1, num2 = size.split(",")
-        size = (int(num1), int(num2))
-
         rotate = int(rotate)
     except TypeError:
         print("Please pass a directory to get started.")
@@ -74,7 +88,7 @@ def main():
         print("{} is above 360 or below 0\nPlease input a rotation less than 360 or above 0".format(rotate))
         sys.exit(31)
 
-    # Check to ensure extension is a string that begins with (.)
+    # Check to ensure extension is type string that doesnt begins with (.)
     if extension.startswith(".") or type(extension) != str:
         if type(extension) != str:
             print("extension was type: {}\nPlease pass an extension of type str".format(extension))
