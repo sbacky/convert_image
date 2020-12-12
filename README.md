@@ -23,7 +23,7 @@ from PIL import Image
 To resize an image using Image:
 ```python
 from PIL import Image
-im = Image("example.jpg")
+im = Image.open("example.jpg")
 new_im = im.resize((640,480))
 new_im.save("example_resized.jpg")
 ```
@@ -31,7 +31,7 @@ new_im.save("example_resized.jpg")
 To rotate an image using Image:
 ```python
 from PIL import Image
-im = Image("example.jpg")
+im = Image.open("example.jpg")
 new_im = im.rotate(90)
 new_im.save("example_rotated.jpg")
 ```
@@ -45,7 +45,7 @@ dir, newDir, size, rotate, extension = sys.argv[1].split("|")
 Back to [Contents](#head1)
 
 ## <a name="head3"></a>**Variables**
-Variables should be passed as one parameter in the shell as: **converter.py dir|newDir|size|rotate|ext**. There should be no spaces between "|"s and the variables to ensure they get split properly. It is also important to pass the variables in the order they appear so they get saved to the correct variables in the script.
+Variables should be passed as one parameter in the shell as: **converter.py "dir|newDir|size|rotate|ext"**. There should be no spaces between "|"s and the variables to ensure they get split properly. It is also important to pass the variables in the order they appear so they get saved to the correct variables in the script.
 
 [dir](#head31)|[newDir](#head31)|[size](#head32)|[rotate](#head33)|[ext](#head34)
 
