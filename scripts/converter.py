@@ -9,23 +9,24 @@ def oneByOne():
         cont = input("Would you like to continue to the next file? ['y'/'n'] ... ")
 
 def convert(dir, newDir, size, rotate, extension):
+    jpgForms = ["jpeg", "jpg"]
     images = os.listdir(dir)
 
     for image in images:
         # Check for any files not wanting to be processed
         if image.startswith(".") or image.endswith(extension):
             continue
-        # get old extension of images at ext
-        fn, ext = image.split(".")
-        # get new file name with extension
-        newFn = fn + extension
         # Get full path to unprocessed image
         unPath = os.path.join(dir, image)
         # Get full path to processed image
-        prPath = os.path.join(newDir, newFn)
+        prPath = os.path.join(newDir, image)
         # create instance of image at path called im
         im = Image.open(unPath)
-        im.rotate(rotate).resize(size).save(prPath)
+        # If convert to jpeg, make sure image in RGB mode
+        if im.mode != 'RGB' and extension.lower().strip() in jpgForms:
+            im = im.convert('RGB')
+            
+        im.rotate(rotate).resize(size).save(fp=prPath, format=extension)
 
         # Unhash to go through images one by one
         #oneByOne()
@@ -74,11 +75,11 @@ def main():
         sys.exit(31)
 
     # Check to ensure extension is a string that begins with (.)
-    if not extension.startswith(".") or type(extension) != str:
+    if extension.startswith(".") or type(extension) != str:
         if type(extension) != str:
             print("extension was type: {}\nPlease pass an extension of type str".format(extension))
             sys.exit(40)
-        print("{} extension does not start with (.)\nPlease entr extension begining with (.)".format(extension))
+        print("{} extension should NOT start with (.)\nPlease enter an extension without (.)".format(extension))
         sys.exit(41)
 
     #convert(dir, newDir, size, rotate, extension)
