@@ -4,7 +4,7 @@ The purpose of this script is to be able to reformat, rotate or resize images to
 ## <a name="head1"></a>**Contents**
 * [Planning](#head2)
 * [Variables](#head3)
-
+* [One at a Time](#head4)
 
 ## <a name="head2"></a>**Planning**
 The script has to take the directory containing the images as a parameter and go through each image in the directory, converting them to the correct format, orientation and, size. Once converted, the images need to be saved to the same directory they were in or to a new directory that would be passed as a parameter as well.
@@ -106,3 +106,6 @@ png ---> .PNG
 Back to [Variables](#head3)
 
 Back to [Contents](#head1)
+
+## <a name="head4"></a>One at a time
+There is an option to enable the script to process images at the users discretion instead of all at once. This option will process the first image in the directory passed (dir) and then ask the user if they would like to process the next one. 

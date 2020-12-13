@@ -6,7 +6,9 @@ import os, sys
 def oneByOne():
     cont = "n"
     while cont.lower().strip() != "y":
-        cont = input("Would you like to continue to the next file? ['y'/'n'] ... ")
+        cont = input("Would you like to continue to the next file? ['y'/'n'/'q'] ... ")
+        if cont == 'q':
+            sys.exit(0)
 
 def convert(dir, newDir, size, rotate, extension):
     jpgForms = ["jpeg", "jpg"]
