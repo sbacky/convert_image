@@ -45,17 +45,43 @@ def main():
     if size == "":
         size = ('null', 'null')
     else:
-        num1, num2 = size.split(",")
-        size = (int(num1), int(num2))
+        # Check to ensure size is a tuple and that it is not empty
+        if len(size) != 2 or type(size) != tuple:
+            if type(size) != tuple:
+                print("{} is not acceptable format\nPlease format size: |num1,num2|".format(size))
+                sys.exit(20)
+            print("size has length: {}\nPlease ensure size is a tuple formatted as: |num1,num2|".format(size))
+            sys.exit(21)
+        # If size passes check above convert size to tuple
+        try:
+            num1, num2 = size.split(",")
+        except ValueError:
+            print("size: {}, has either to many or to little values to unpack".format(size))
+            print("format size: |num1,num2|")
+            sys.exit(22)
+        try:
+            int(num1)
+            int(num2)
+        except ValueError:
+            print("Values for size must contain only integers")
+            print("example: |num1,num2| ---> |600,400|")
+            sys.exit(23)
+
     if rotate == "":
         rotate = "0"
+    try:
+        rotate = int(rotate)
+    except ValueError:
+        print("rotate: {}, must be an integer".format(rotate))
+        print("example: |size| ---> |90|")
+        sys.exit(30)
+
     if extension == "":
         extension = "null"
 
     try:
         os.path.isdir(dir)
         os.path.isdir(newDir)
-        rotate = int(rotate)
     except TypeError:
         print("Please pass a directory to get started.")
         print("Invocation: converter.py dir|newDir|size|rotate|ext")
@@ -72,20 +98,9 @@ def main():
         print("{} is not a vaid directory\nPlease pass a valid directory to get started".format(newDir))
         sys.exit(11)
 
-    # Check to ensure size is a tuple and that it is not empty
-    if len(size) != 2 or type(size) != tuple:
-        if type(size) != tuple:
-            print("{} is not acceptable format\nPlease format size: |num1,num2|".format(size))
-            sys.exit(20)
-        print("size has length: {}\nPlease ensure size is a tuple formatted as: |num1,num2|".format(size))
-        sys.exit(21)
-
     # Check to ensure rotate is an integer less than 360 or above 0
-    if type(rotate) != int or rotate >= 360 or rotate <= 0:
-        if type(rotate) != int:
-            print("{} is not an integer\nPlease input an integer for rotation".format(rotate))
-            sys.exit(30)
-        print("{} is above 360 or below 0\nPlease input a rotation less than 360 or above 0".format(rotate))
+    if rotate >= 360 or rotate < 0:
+        print("rotate: {}, is above 360 or below 0\nPlease input a value that is less than 360 or greater than or equal to 0".format(rotate))
         sys.exit(31)
 
     # Check to ensure extension is type string that doesnt begins with (.)
