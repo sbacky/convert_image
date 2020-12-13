@@ -42,11 +42,11 @@ def main():
     # Check for empty inputs and fill them accordingly
     if newDir == ""
         newDir = dir
-    if size != "":
+    if size == "":
+        size = ('null', 'null')
+    else:
         num1, num2 = size.split(",")
         size = (int(num1), int(num2))
-    else:
-        size = ('null', 'null')
     if rotate == "":
         rotate = "0"
     if extension == "":
